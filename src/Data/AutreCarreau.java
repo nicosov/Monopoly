@@ -12,7 +12,7 @@ public class AutreCarreau extends Carreau {
     
    @Override
     public boolean etudeAchatPropriete(Joueur aJ ) {
-    return false;
+    return true;
     }
 
     @Override
