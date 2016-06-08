@@ -26,4 +26,8 @@ public abstract class Carreau {
     public abstract boolean etudeAchatPropriete(Joueur aJ);
 
     public abstract void acheterPropriete(Joueur aJ);
+    
+    public void setNumeroCarreau(int numC){
+        this.numero=numC;
+    }
 }

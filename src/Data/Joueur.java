@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public class Joueur {
 
+    
+    
     private String nomJoueur;
     private int cash = 1500;
     public ArrayList<ProprieteAConstruire> proprieteAConstruires = new ArrayList<ProprieteAConstruire>();
@@ -48,6 +50,10 @@ public class Joueur {
 
     public void setPositionCourante(Carreau aC) {
         positionCourante = aC;
+    }
+    
+    public void DeplacementPositionNumeroCarreau(int numC){
+  positionCourante.setNumeroCarreau(numC);
     }
 
     public String getNom() {

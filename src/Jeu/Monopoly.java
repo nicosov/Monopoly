@@ -3,6 +3,7 @@ package Jeu;
 import Data.AutreCarreau;
 import java.util.ArrayList;
 import Data.Carreau;
+import Data.Carte;
 import Data.Compagnie;
 import Data.Gare;
 import Data.Joueur;
@@ -16,6 +17,12 @@ public class Monopoly {
     private ArrayList<Joueur> joueursEnVie = new ArrayList<Joueur>();
     private ArrayList<Joueur> joueursMort = new ArrayList<Joueur>();
     private int i = 0;
+    private ArrayList<Carte> chances;
+    private ArrayList<Carte> communautes;
+
+
+
+
 
     public void avancer(Joueur aJ, int aDes1, int aDes2) {
         System.out.println("--------------------------------------------------");
@@ -79,5 +86,13 @@ public class Monopoly {
 
    public ArrayList<Joueur> getJoueursMort() {
     return joueursMort;
+    }
+   
+   public void addCarteCommunaute(Carte c){
+        chances.add(c);
+    }
+   
+   public void addCarteChance(Carte c){
+        communautes.add(c);
     }
 }

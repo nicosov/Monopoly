@@ -1,0 +1,32 @@
+Communaute, L, Vous êtes libéré de prison. Cette carte peut être conservée jusqu'à ce qu'elle soit utilisée.
+Communaute, T, Payez une amende de 10€, -10
+Communaute, A, C'est votre anniversaire. Chaque joueur doit vous donner 10€,
+Communaute, T, Erreur de la banque en votre faveur. Recevez 200€,200
+Communaute, DA, Retournez à Belleville, 1, non
+Communaute, T, Payez la note du médecin : 50€, -50
+Communaute, T, Les contributions vous remboursent la somme de 20€, 20
+Communaute, T, Payez à l'hôpital 100€, -100
+Communaute, T, Vous héritez : 100€, 100
+Communaute, DA, Allez en prison. Avancez tout droit en prison. Ne passez pas par la case Départ. Ne recevez pas 200€, 10, non
+Communaute, T, Payez votre Police d'Assurance : 50€, -50
+Communaute, T, La vente de votre stock vous rapporte : 50€, -50
+Communaute, DA, Avancez jusqu'à la case Départ., 0, oui
+Communaute, T, Recevez votre intérêt sur l'emprunt à 7% : 25€, 25
+Communaute, T, Recevez votre revenu annuel : 100€, 100
+Communaute, T, Vous avez gagné le deuxième prix de beauté : recevez 10€, 10
+Chance, L, Vous êtes libéré de prison. Cette carte peut être conservée jusqu'à ce qu'elle soit utilisée., 
+Chance, DR, Reculez de trois cases.
+Chance, E, Vous êtes imposés pour les réparations de voirie à raison de : 40 € par maison et 115€ par hôtel., 40, 115
+Chance, T, Amende pour excèsde vitesse : 15€, -15
+Chance, E, Faites des réparations dans toutes vos maisons : versez pour chaque maison 25€ et pour chaque hôtel 100€, 25, 100
+Chance, T, Amende pour ivresse : 20€, -20
+Chance, DA, Avancez jusqu'à la case Départ,0, oui 
+Chance, DA, Allez en prison. Avancez tout droit en prison. Ne passez pas par la case Départ. Ne recevez pas 200€.,10, non
+Chance, DA, Rendez-vous à l'Avenue Henri-Martin. Si vous passez par la case Départ recevez 200€., 24, oui
+Chance, DA, Allez à la gare de Lyon. Si vous passez par la case Départ recevez 200€., 15, oui
+Chance, T, Payez pour frais de scolarité : 150€, -150
+Chance, T, Vous avez gagné le prix de mots croisés. Recevez 100€, 100
+Chance, T, La Banque vous verse un dividende de 50€, 50
+Chance, DA, Rendez-vous à la Rue de la Paix., 39, non
+Chance, T, Votre immeuble et votre prêt rapportent. Vous devez toucher 150€, 150
+Chance, DA, Accédez au Boulevard de la Villette. Si vous passez par la case Départ recevez 200€, 11, oui

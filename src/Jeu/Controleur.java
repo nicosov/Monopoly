@@ -1,5 +1,7 @@
 package Jeu;
 
+import Carte.CarteDeplacementAbsolut;
+import Carte.CarteTransaction;
 import Ui.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -208,6 +210,9 @@ public class Controleur {
                 } else if (caseType.compareTo("AU") == 0) {
                     //   System.out.println("Case Autre :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     monopoly.addCarreau_p(new AutreCarreau(i + 1, data.get(i)[2]));
+                } else if (caseType.compareTo("CC") == 0) {
+                    //   System.out.println("Case Autre :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+                    monopoly.addCarreau_p(new AutreCarreau(i + 1, data.get(i)[2]));
                 } else {
                     System.err.println("[buildGamePleateau()] : Invalid Data type");
                 }
@@ -220,6 +225,42 @@ public class Controleur {
         }
     }
 
+    private void buildCartes(String dataFilename) {
+
+        try {
+            ArrayList<String[]> data = readDataFile(dataFilename, ",");
+           
+            //TODO: create cases instead of displaying
+            for (int i = 0; i < data.size(); ++i) {
+                String type = data.get(i)[0];
+                String description = data.get(i)[2];
+                String classe = data.get(i)[1]; 
+                TypeCarte typeCarte;
+                if(type.compareTo("Communaute")==0){
+                    typeCarte=TypeCarte.communaute;
+                }else{
+                    typeCarte=TypeCarte.chance;
+                }
+                if (type.compareTo("Communaute") == 0) {
+                    if(classe.compareTo("T") == 0){
+                        monopoly.addCarteCommunaute(new CarteTransaction(typeCarte, description, Integer.valueOf(data.get(i)[3])));
+                    }else if (classe.compareTo("DA")==0){
+                        monopoly.addCarteCommunaute(new CarteDeplacementAbsolut(typeCarte, description, Integer.valueOf(data.get(i)[3]), data.get(i)[4]));
+                    }
+                } else if (type.compareTo("Chance") == 0) {
+                    
+                }  else {
+                    System.err.println("[buildGamePleateau()] : Invalid Data type");
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+            System.err.println("[buildGamePlateau()] : File is not found!");
+        } catch (IOException e) {
+            System.err.println("[buildGamePlateau()] : Error while reading file!");
+        }
+    }
+    
     private ArrayList<String[]> readDataFile(String filename, String token) throws FileNotFoundException, IOException {
         ArrayList<String[]> data = new ArrayList<String[]>();
 
