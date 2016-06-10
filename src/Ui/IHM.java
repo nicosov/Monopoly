@@ -21,7 +21,7 @@ public class IHM extends JFrame implements Observateur {
 
     private static JFrame window1;
     public static IhmMenu ihmMenu;
-
+    private IhmInscrireLesJoueurs Ftest;
     private Controleur controleur;
 
     public IHM(Controleur c) {
@@ -36,8 +36,9 @@ public class IHM extends JFrame implements Observateur {
         // Indique de sortir du programme lorsque la fenêtre est fermée par l'utilisateur
         window1.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         // Définit la taille de la fenêtre en pixels
-        window1.setSize(700, 350);
-        window1.setMinimumSize(new Dimension(800, 600));
+        window1.setSize(500, 375);
+        window1.setMinimumSize(new Dimension(500, 375));
+        window1.setMaximumSize(new Dimension(500, 375));
         // Instanciation de l'IHM d'un contact
         ihmMenu = new IhmMenu();
         // Affectation des attributs du contact aux champs de l'IHM
