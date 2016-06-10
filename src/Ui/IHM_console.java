@@ -2,13 +2,19 @@ package Ui;
 
 import Data.Carreau;
 import Data.Joueur;
+import Data.ProprieteAConstruire;
 import Jeu.Controleur;
 import Jeu.Message;
 import Jeu.Monopoly;
 import Jeu.Observateur;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class IHM_console  implements Observateur{
+
+    public static void afficherChezlui() {
+        System.out.println("Vous etes sur votre propriete.");
+    }
 
     private Controleur controleur;
 
@@ -77,7 +83,8 @@ public class IHM_console  implements Observateur{
         System.out.println("1 - Joueur suivant");
         System.out.println("2 - Afficher les informations");
         System.out.println("3 - Afficher vos informations");
-        System.out.println("4 - Finir la partie");
+        System.out.println("4 - Construire");
+        System.out.println("5 - Finir la partie");
         System.out.println("\u001B[34m --------------------------------------------------");
 
         Scanner sc = new Scanner(System.in);
@@ -97,7 +104,7 @@ public class IHM_console  implements Observateur{
                         System.out.println("Joueur : " + j.getNom());
                         System.out.println(" - Argent : " + j.getCash());
                         System.out.println(" - Position : " + j.getPositionCourante().getNomCarreau());
-                        System.out.println(" - Gares possédées : " + j.getGares());
+                        System.out.println(" - Gares possédées : " + j.getNbGares());
                         System.out.println(" - Compagnie possédées : " + j.getNbComp());
                         System.out.println(" - Propriété possédées : " + j.getNbPropriete());
                     }
@@ -108,8 +115,29 @@ public class IHM_console  implements Observateur{
                     controleur.jCourant();
                     afficherMenuJeu_p();
                     break;
-
+                
                 case 4:
+                    System.out.println(" Proprietes constructibles :");
+                    ArrayList<ProprieteAConstruire> propConstructibles = controleur.proprietesConstructibles();
+                    if(propConstructibles.size()>0){
+                        int i = 0;
+                        for(ProprieteAConstruire p : propConstructibles){
+                            System.out.println(i + " " + p.getNomCarreau() + " du groupe " + p.getGroupe().getCouleur());
+                            i++;
+                        }
+                            System.out.println("Choisissez le numero de la propriete a construire : ");
+                            Scanner sc2 = new Scanner(System.in);
+                            int numC = 0;    
+                            numC = sc2.nextInt();
+                            controleur.monopolyConstruire(numC);
+                            System.out.println("Construction effectuée !");
+                    }else{
+                        System.out.println("Aucune propriete constructible.");
+                    }
+                    afficherMenuJeu_p();
+                    break;
+                    
+                case 5:
 
                     System.out.println("\u001B[34m ----- FIN DE PARTIE ----- \u001B[0m");
                     for (Joueur j : controleur.getJoueursEnVie()) {
@@ -128,9 +156,9 @@ public class IHM_console  implements Observateur{
         return rep;
     }
 
-    public int afficherMenuAchat() {
+    public int afficherMenuAchat(int prix) {
         System.out.println("\u001B[34m -------------- MENU ACHAT PROPRIETE --------------");
-        System.out.println(" Voulez-vous acheter la propriete ?");
+        System.out.println(" Voulez-vous acheter la propriete au prix de " + prix +  "?");
         System.out.println("1 - Oui");
         System.out.println("2 - Non");
         System.out.println(" \u001B[34m --------------------------------------------------");
@@ -152,26 +180,51 @@ public class IHM_console  implements Observateur{
         System.out.println("Votre argent : " +j.getCash());
     }
     public void afficherDouble(Joueur j){
-         System.out.println("le Joueur " + j.getNom() + " viens de faire un double, il rejoue...");
+         System.out.println("le Joueur " + j.getNom() + " viens de faire un double, il rejouera...");
     }
     
-        public void notifier(Message msg) {
+        public void notifier(Message msg) 
+        {
+            switch(msg.type) 
+            {
+                case GARE:
 
-        
-        switch(msg.type) {
-            case GARE:
-            
-                System.out.println("GARE");
-                break;
-            
-            case COMPAGNIE:
+                    System.out.println("GARE");
+                    break;
 
-                System.out.println("GARE");
-                break;
-            case PROPRIETE_A_CONSTRUIRE:
-                System.out.println("PROPRIETE_A_CONSTRUIRE");
-                break;
+                case COMPAGNIE:
+
+                    System.out.println("COMPAGNIE");
+                    break;
+                case PROPRIETE_A_CONSTRUIRE:
+                    System.out.println("PROPRIETE_A_CONSTRUIRE");
+                    break;
+                case AUTRE_CARREAU:
+
+                    System.out.println("AUTRE CARREAU");
+                    break;
+
+                case CHANCE:
+
+                    System.out.println("CHANCE");
+                    break;
+                case COMMUNAUTE:
+                    System.out.println("COMMUNAUTE");
+                    break;    
         }
             
     }
+
+    public void afficherPayerCompagnie(Joueur proprietaire, int montant) {
+        System.out.println("Vous etes sur la compagnie de " + proprietaire.getNom() + " .Vous payez " + montant + "." );
+        }
+
+    public void afficherPayerGare(Joueur proprietaire, int montant) {
+        System.out.println("Vous etes sur la gare de " + proprietaire.getNom() + " .Vous payez " + montant + "." );
+    }
+
+    public void afficherPayerProprieteAConstruire(Joueur proprietaire, int montant) {
+        System.out.println("Vous etes sur la propriete de " + proprietaire.getNom() + " .Vous payez " + montant + "." );
+    }
+    
 }
