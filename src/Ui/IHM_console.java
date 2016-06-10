@@ -129,7 +129,7 @@ public class IHM_console  implements Observateur{
                             Scanner sc2 = new Scanner(System.in);
                             int numC = 0;    
                             numC = sc2.nextInt();
-                            controleur.monopolyConstruire(numC);
+                            controleur.monopolyConstruire(propConstructibles.get(numC));
                             System.out.println("Construction effectuée !");
                     }else{
                         System.out.println("Aucune propriete constructible.");
@@ -216,15 +216,19 @@ public class IHM_console  implements Observateur{
     }
 
     public void afficherPayerCompagnie(Joueur proprietaire, int montant) {
-        System.out.println("Vous etes sur la compagnie de " + proprietaire.getNom() + " .Vous payez " + montant + "." );
+        System.out.println("Vous etes sur la compagnie de " + proprietaire.getNom() + ". Vous payez " + montant + "." );
         }
 
     public void afficherPayerGare(Joueur proprietaire, int montant) {
-        System.out.println("Vous etes sur la gare de " + proprietaire.getNom() + " .Vous payez " + montant + "." );
+        System.out.println("Vous etes sur la gare de " + proprietaire.getNom() + ". Vous payez " + montant + "." );
     }
 
     public void afficherPayerProprieteAConstruire(Joueur proprietaire, int montant) {
-        System.out.println("Vous etes sur la propriete de " + proprietaire.getNom() + " .Vous payez " + montant + "." );
+        System.out.println("Vous etes sur la propriete de " + proprietaire.getNom() + ". Vous payez " + montant + "." );
+    }
+
+    public void afficherTaxes(Joueur aJ, int taxe) {
+                System.out.println("Vous payez " + taxe + "." );
     }
     
 }

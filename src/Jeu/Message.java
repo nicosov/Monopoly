@@ -20,7 +20,8 @@ public class Message {
         COMPAGNIE,
         CHANCE,
         COMMUNAUTE,
-        AUTRE_CARREAU
+        AUTRE_CARREAU,
+        IMPOTS
     };
 
     public enum TypeCarte {
@@ -40,6 +41,7 @@ public class Message {
     public int loyerTerrainNu;
     public int loyer;
     public int numC;
+    public int taxe;
   //  public String gagnant; // Champ utilisé pour le message JEU_TERMINE
 
 }

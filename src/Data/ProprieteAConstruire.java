@@ -10,7 +10,12 @@ public class ProprieteAConstruire extends Propriete {
     private int nbMaison;
     private int nbHotel;
     private int prixMaison;
-
+    private int loyer1Maison;
+    private int loyer2Maison;
+    private int loyer3Maison;
+    private int loyer4Maison;
+    private int loyerHotel;
+    
     public int getNbMaison() {
         return nbMaison;
     }
@@ -35,12 +40,17 @@ public class ProprieteAConstruire extends Propriete {
         this.nbHotel = nbHotel;
     }
 
-    public ProprieteAConstruire(int numero, String nomCarreau, int loyer, int prixPropriete, Groupe groupe, int prixMaison) {
+    public ProprieteAConstruire(int numero, String nomCarreau, int loyer, int prixPropriete, Groupe groupe, int prixMaison, int loyer1M, int loyer2M, int loyer3M, int loyer4M, int loyerH) {
         super(numero, nomCarreau, loyer, prixPropriete);
         this.groupe = groupe;
         this.prixMaison=prixMaison;
         nbMaison=0;
         nbHotel=0;
+        this.loyer1Maison=loyer1M;
+        this.loyer2Maison=loyer2M;
+        this.loyer3Maison=loyer3M;
+        this.loyer4Maison=loyer4M;
+        this.loyerHotel=loyerH;
     }
 
     public Joueur getProprietaire() {
@@ -61,14 +71,26 @@ public class ProprieteAConstruire extends Propriete {
 
     @Override
     public int calculLoyer() {
-        int i = 0;
+        boolean jproprio = true;
         for (ProprieteAConstruire p : groupe.getPropriete()) {
-            if (p.getProprietaire() == this.proprietaire) {
-                i++;
+            if (p.getProprietaire() != this.proprietaire) {
+                jproprio=false;
             }
         }
-        if (i == groupe.getPropriete().size()) {
-            return getLoyer() * 2;
+        if (jproprio) {
+            if(this.getNbHotel()>0){
+                return loyerHotel;
+            }else if (this.getNbMaison()==1){
+                return loyer1Maison;
+            }else if (this.getNbMaison()==2){
+                return loyer2Maison;
+            }else if (this.getNbMaison()==3){
+                return loyer3Maison;
+            }else if (this.getNbMaison()==4){
+                return loyer4Maison;
+            }else{
+                return getLoyer() * 2;
+            }    
         } else {
             return getLoyer();
         }

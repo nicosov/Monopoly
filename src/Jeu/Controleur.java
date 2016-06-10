@@ -133,8 +133,8 @@ public class Controleur {
         }
     }
 
-    public void monopolyConstruire(int numC){
-       
+    public void monopolyConstruire(ProprieteAConstruire p){
+       monopoly.construire(p);
     }
     
    public ArrayList<ProprieteAConstruire> proprietesConstructibles(){
@@ -264,6 +264,11 @@ public class Controleur {
                     }
                     rejouer = false;
                     break;
+                case IMPOTS:
+                    aJ.payerLoyer(msgCarreau.taxe);
+                    ihm_console.afficherTaxes(aJ,msgCarreau.taxe);
+                    rejouer = false;
+                    break;
             }
         observateur.notifier(msgCarreau);
         
@@ -287,8 +292,8 @@ public class Controleur {
     
     private Carreau lancerDesAvancer(Joueur aJ) {
 
-        des1 = 3;//lancerDes();// PHASE TEST: lancerDes() : normal - 0 : 1par1 - 3: gare - 3: compagnie - 2: double
-        des2 = 2;//lancerDes();// PHASE TEST: lancerDes() : normal - 1 : 1par1 - 2: gare - 1: compagnie - 2: double
+        des1 = 1;//lancerDes();// PHASE TEST: lancerDes() : normal - 0 : 1par1 - 3: gare - 3: compagnie - 2: double
+        des2 = 3;//lancerDes();// PHASE TEST: lancerDes() : normal - 1 : 1par1 - 2: gare - 1: compagnie - 2: double
         monopoly.avancer(aJ, des1, des2);
 
         if (des1 == des2) {
@@ -341,7 +346,7 @@ public class Controleur {
                 String caseType = data.get(i)[0];
                 if (caseType.compareTo("P") == 0) {
                     //    System.out.println("Propriété :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    ProprieteAConstruire p = new ProprieteAConstruire(i + 1, data.get(i)[2], Integer.valueOf(data.get(i)[4]), Integer.valueOf(data.get(i)[5]), groupes.get(CouleurPropriete.valueOf(data.get(i)[3])),Integer.valueOf(data.get(i)[11]));
+                    ProprieteAConstruire p = new ProprieteAConstruire(i + 1, data.get(i)[2], Integer.valueOf(data.get(i)[4]), Integer.valueOf(data.get(i)[5]), groupes.get(CouleurPropriete.valueOf(data.get(i)[3])),Integer.valueOf(data.get(i)[11]), Integer.valueOf(data.get(i)[6]), Integer.valueOf(data.get(i)[7]), Integer.valueOf(data.get(i)[8]), Integer.valueOf(data.get(i)[9]), Integer.valueOf(data.get(i)[10]));
                     monopoly.addCarreau_p(p);
                     
                     groupes.get(CouleurPropriete.valueOf(data.get(i)[3])).addPropriete(p);
@@ -360,6 +365,9 @@ public class Controleur {
                 } else if (caseType.compareTo("CH") == 0) {
                     //   System.out.println("Case Autre :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     monopoly.addCarreau_p(new CarreauChance(i + 1, data.get(i)[2]));
+                }else if (caseType.compareTo("I") == 0) {
+                    //   System.out.println("Case Autre :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+                    monopoly.addCarreau_p(new Impots(i + 1, data.get(i)[2], Integer.valueOf(data.get(i)[3])));
                 }else {
                     System.err.println("[buildGamePleateau()] : Invalid Data type");
                 }

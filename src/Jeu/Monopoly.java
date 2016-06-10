@@ -161,20 +161,19 @@ public class Monopoly {
     }
 
     public void construire(ProprieteAConstruire p) {
-            System.out.println("DEBUG Monopoly.construire() p : "+p);
-            System.out.println("DEBUG Monopoly.construire() p.getProprietaire : "+p.getProprietaire());
-            System.out.println("DEBUG Monopoly.construire() p.getPrixMaison : "+p.getPrixMaison());
+            
             int nbMaison = p.getNbMaison();
             p.getProprietaire().payerLoyer(p.getPrixMaison());
             if (nbMaison < 4) {
                 p.setNbMaison(nbMaison + 1);
-                this.nbMaison = -1;
+                this.nbMaison-=1;
             } else {
                 p.setNbMaison(0);
                 p.setNbHotel(1);
-                this.nbHotel = -1;
-                this.nbMaison = +4;
+                this.nbHotel -=1;
+                this.nbMaison += 4;
             }
+           
         
     }
 
@@ -190,9 +189,9 @@ public class Monopoly {
             int nbHotelP = prop.getNbHotel();
             if (nbHotelP == 1) {
                 nbMaisonP = 5;
-                if (nbMaisonP < nbMaisonMin) {
-                    nbMaisonMin = nbMaisonP;
-                }
+            }    
+            if (nbMaisonP < nbMaisonMin) {
+                nbMaisonMin = nbMaisonP;
             }
             if (prop.getProprietaire() != null) {
                 proprioTemp = prop.getProprietaire();
