@@ -1,7 +1,8 @@
 package Jeu;
 
 import Carte.CarteDeplacementAbsolut;
-import Carte.CarteTransaction;
+import Carte.CarteDeplacementPrison;
+import Carte.*;
 import Ui.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class Controleur {
     private Propriete propriete_p;
     private boolean doubleDes = false;
     private HashMap<CouleurPropriete, Groupe> groupes = new HashMap<CouleurPropriete, Groupe>();
+    private int des1;
+    private int des2;
 
     public Controleur() {
         monopoly = new Monopoly();
@@ -33,6 +36,7 @@ public class Controleur {
         ihm = new IHM(this);
         ihm.afficherIhmMenu();
         CreerPlateau("src/Main/data.txt");
+        buildCartes("src/Main/cartes.txt");
         jeu();
     }
 
@@ -42,6 +46,14 @@ public class Controleur {
 
     public void setRes(HashSet<String> res) {
         this.res = res;
+    }
+
+    public Joueur getjCourant() {
+        return jCourant;
+    }
+
+    public void setjCourant(Joueur jCourant) {
+        this.jCourant = jCourant;
     }
 
     public void jeu() {
@@ -121,18 +133,143 @@ public class Controleur {
         }
     }
 
+    public void monopolyConstruire(int numC){
+       
+    }
+    
+   public ArrayList<ProprieteAConstruire> proprietesConstructibles(){
+       ArrayList<ProprieteAConstruire> propConstructibles = new ArrayList();
+       for(ProprieteAConstruire p : jCourant.getProprieteAConstruires()){
+           if(monopoly.etudeConstruire(p)){
+               propConstructibles.add(p);
+           }
+       }
+       return propConstructibles;
+   }
+    
+    
     public void jouerUnCoup(Joueur aJ) {
-
+        boolean rejouer = true;
         Carreau c = lancerDesAvancer(aJ);
         int i = 0;
         c.action(aJ);
-
-        if (c.etudeAchatPropriete(aJ)) {
-            i = ihm_console.afficherMenuAchat();
+        Carte carte = null;
+        
+        while(rejouer){
+            rejouer = false;
+            Message msgCarreau = c.action(aJ);
+            switch(msgCarreau.type) {
+                case AUTRE_CARREAU:
+                    rejouer=false;
+                    break;
+                case CHANCE:
+                    carte=monopoly.tirerChance();
+                    System.out.println(carte.getDescription());
+                    Message msgCarte=carte.actionCarte(aJ);
+                    switch(msgCarte.typeCarte){
+                        case DeplacementAbsolut:
+                            aJ.setPositionCourante(monopoly.getCarreau(msgCarte.numC));
+                            c=aJ.getPositionCourante();
+                            
+                            rejouer = true;
+                            break;
+                        case DeplacementPrison:
+                            break;
+                        case DeplacementRelatif:
+                            System.out.println(aJ.getPositionCourante().getNumero()); 
+                            aJ.setPositionCourante(monopoly.getCarreau((aJ.getPositionCourante().getNumero())-4));
+                            c=aJ.getPositionCourante();
+                            System.out.println(aJ.getPositionCourante().getNomCarreau());
+                            rejouer = true;
+                            break;
+                        case Entretien:
+                            break;
+                        case LiberePrison:
+                            break;
+                        case Transaction:
+                            break;
+                    }
+                    break;
+                case COMMUNAUTE:
+                carte=monopoly.tirerCommunaute();
+                msgCarte=carte.actionCarte(aJ);
+                    switch(msgCarte.typeCarte){
+                        case Anniversaire:
+                            monopoly.payerAnniversaire(aJ);
+                            break;
+                        case DeplacementAbsolut:
+                            aJ.setPositionCourante(monopoly.getCarreau(msgCarte.numC));
+                            c=aJ.getPositionCourante();
+                            rejouer = true;
+                            break;
+                        case DeplacementPrison:
+                            break;
+                        case LiberePrison:
+                            break;
+                        case Transaction:
+                            break;
+                  }
+                   break;
+                case COMPAGNIE:
+                    rejouer = false;
+                    if(c.getProprietaire()==null){
+                        if (c.etudeAchatPropriete(aJ)) {
+                            i = ihm_console.afficherMenuAchat(c.getPrixPropriete());
+                            if (i == 1) {
+                                c.acheterPropriete(aJ);
+                            }
+                        }
+                    }else if(c.getProprietaire()==aJ){
+                        IHM_console.afficherChezlui();
+                    }else if (c.getProprietaire()!=aJ){
+                        int montant = c.calculLoyer()*(des1 + des2);
+                        aJ.payerLoyer(montant);
+                        c.getProprietaire().recevoirLoyer(montant);
+                        ihm_console.afficherPayerCompagnie(c.getProprietaire(), montant);
+                    }
+                  break;
+                case GARE:
+                    rejouer = false;
+                    if(c.getProprietaire()==null){
+                        if (c.etudeAchatPropriete(aJ)) {
+                            i = ihm_console.afficherMenuAchat(c.getPrixPropriete());
+                            if (i == 1) {
+                                c.acheterPropriete(aJ);
+                            }
+                        }
+                    }else if (c.getProprietaire()==aJ){
+                        IHM_console.afficherChezlui();
+                    }else if (c.getProprietaire()!=aJ){
+                        int montant = c.calculLoyer();
+                        c.getProprietaire().recevoirLoyer(montant);                        
+                        aJ.payerLoyer(montant);
+                        ihm_console.afficherPayerGare(c.getProprietaire(), montant);
+                    }
+                  break;
+                case PROPRIETE_A_CONSTRUIRE:
+                    if(c.getProprietaire()==null){
+                        if (c.etudeAchatPropriete(aJ)) {
+                            i = ihm_console.afficherMenuAchat(c.getPrixPropriete());
+                            if (i == 1) {
+                                c.acheterPropriete(aJ);
+                            }
+                        }
+                    }else if(c.getProprietaire()==aJ){
+                        IHM_console.afficherChezlui();
+                    }else if (c.getProprietaire()!=aJ){
+                        int montant = c.calculLoyer();
+                        c.getProprietaire().recevoirLoyer(montant);                        
+                        aJ.payerLoyer(montant);
+                        ihm_console.afficherPayerProprieteAConstruire(c.getProprietaire(), montant);
+                    }
+                    rejouer = false;
+                    break;
+            }
+        observateur.notifier(msgCarreau);
+        
         }
-        if (i == 1) {
-            c.acheterPropriete(aJ);
-        }
+        
+        
 
         if (doubleDes) {
             jouerUnCoup(aJ);
@@ -140,12 +277,18 @@ public class Controleur {
         } else {
             int choix = ihm_console.afficherMenuJeu_p();
         }
+        
+       
+        
     }
 
+    
+    
+    
     private Carreau lancerDesAvancer(Joueur aJ) {
 
-        int des1 = lancerDes();// PHASE TEST: lancerDes() : normal - 0 : 1par1 - 3: gare - 3: compagnie - 2: double
-        int des2 = lancerDes();// PHASE TEST: lancerDes() : normal - 1 : 1par1 - 2: gare - 1: compagnie - 2: double
+        des1 = 3;//lancerDes();// PHASE TEST: lancerDes() : normal - 0 : 1par1 - 3: gare - 3: compagnie - 2: double
+        des2 = 2;//lancerDes();// PHASE TEST: lancerDes() : normal - 1 : 1par1 - 2: gare - 1: compagnie - 2: double
         monopoly.avancer(aJ, des1, des2);
 
         if (des1 == des2) {
@@ -155,7 +298,7 @@ public class Controleur {
         } else {
             doubleDes = false;
         }
-
+        
         return aJ.getPositionCourante();
 
     }
@@ -198,8 +341,9 @@ public class Controleur {
                 String caseType = data.get(i)[0];
                 if (caseType.compareTo("P") == 0) {
                     //    System.out.println("Propriété :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    ProprieteAConstruire p = new ProprieteAConstruire(i + 1, data.get(i)[2], Integer.valueOf(data.get(i)[4]), Integer.valueOf(data.get(i)[5]), groupes.get(CouleurPropriete.valueOf(data.get(i)[3])));
+                    ProprieteAConstruire p = new ProprieteAConstruire(i + 1, data.get(i)[2], Integer.valueOf(data.get(i)[4]), Integer.valueOf(data.get(i)[5]), groupes.get(CouleurPropriete.valueOf(data.get(i)[3])),Integer.valueOf(data.get(i)[11]));
                     monopoly.addCarreau_p(p);
+                    
                     groupes.get(CouleurPropriete.valueOf(data.get(i)[3])).addPropriete(p);
                 } else if (caseType.compareTo("G") == 0) {
                     //   System.out.println("Gare :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1] + "Prix : " + data.get(i)[3]);
@@ -210,10 +354,13 @@ public class Controleur {
                 } else if (caseType.compareTo("AU") == 0) {
                     //   System.out.println("Case Autre :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     monopoly.addCarreau_p(new AutreCarreau(i + 1, data.get(i)[2]));
-                } else if (caseType.compareTo("CC") == 0) {
+                } else if (caseType.compareTo("COM") == 0) {
                     //   System.out.println("Case Autre :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    monopoly.addCarreau_p(new AutreCarreau(i + 1, data.get(i)[2]));
-                } else {
+                    monopoly.addCarreau_p(new CarreauCommunaute(i + 1, data.get(i)[2]));
+                } else if (caseType.compareTo("CH") == 0) {
+                    //   System.out.println("Case Autre :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+                    monopoly.addCarreau_p(new CarreauChance(i + 1, data.get(i)[2]));
+                }else {
                     System.err.println("[buildGamePleateau()] : Invalid Data type");
                 }
             }
@@ -232,27 +379,75 @@ public class Controleur {
            
             //TODO: create cases instead of displaying
             for (int i = 0; i < data.size(); ++i) {
+                
                 String type = data.get(i)[0];
                 String description = data.get(i)[2];
                 String classe = data.get(i)[1]; 
                 TypeCarte typeCarte;
+                
                 if(type.compareTo("Communaute")==0){
                     typeCarte=TypeCarte.communaute;
                 }else{
                     typeCarte=TypeCarte.chance;
                 }
                 if (type.compareTo("Communaute") == 0) {
+                    System.out.println("Communaute " + i);
                     if(classe.compareTo("T") == 0){
+                        System.out.println(i);
                         monopoly.addCarteCommunaute(new CarteTransaction(typeCarte, description, Integer.valueOf(data.get(i)[3])));
                     }else if (classe.compareTo("DA")==0){
+                        System.out.println(i);
                         monopoly.addCarteCommunaute(new CarteDeplacementAbsolut(typeCarte, description, Integer.valueOf(data.get(i)[3]), data.get(i)[4]));
+                    }else if (classe.compareTo("DP")==0){
+                             System.out.println(i);               
+                        monopoly.addCarteCommunaute(new CarteDeplacementPrison(typeCarte, description));
+                    }else if (classe.compareTo("DR")==0){
+                            System.out.println(i);
+                        monopoly.addCarteCommunaute(new CarteDeplacementRelatif(typeCarte, description));
+                    }else if (classe.compareTo("L")==0){
+                        System.out.println(i);
+                        monopoly.addCarteCommunaute(new CarteLiberePrison(typeCarte, description));
+                    }else if (classe.compareTo("E")==0){
+                        System.out.println(i);
+                        monopoly.addCarteCommunaute(new CarteEntretien(typeCarte, description, Integer.valueOf(data.get(i)[3]), Integer.valueOf(data.get(i)[4])));
+                    }else if (classe.compareTo("A")==0){
+                        System.out.println(i);
+                        monopoly.addCarteCommunaute(new CarteAnniversaire(typeCarte, description));
                     }
-                } else if (type.compareTo("Chance") == 0) {
-                    
+                } else if (type.compareTo("Chance") == 0) { 
+                    System.out.println("Chance " + i);
+
+                    if(classe.compareTo("T") == 0){
+                        System.out.println(i);
+                        monopoly.addCarteChance(new CarteTransaction(typeCarte, description, Integer.valueOf(data.get(i)[3])));
+                    }else if (classe.compareTo("DA")==0){
+                        System.out.println(i);
+                        monopoly.addCarteChance(new CarteDeplacementAbsolut(typeCarte, description, Integer.valueOf(data.get(i)[3]), data.get(i)[4]));
+                    }else if (classe.compareTo("DP")==0){
+                        System.out.println(i);
+                        monopoly.addCarteChance(new CarteDeplacementPrison(typeCarte, description));
+                    }else if (classe.compareTo("DR")==0){
+                        System.out.println(i);
+                        monopoly.addCarteChance(new CarteDeplacementRelatif(typeCarte, description));
+                    }else if (classe.compareTo("L")==0){
+                        System.out.println(i);
+                        monopoly.addCarteChance(new CarteLiberePrison(typeCarte, description));
+                    }else if (classe.compareTo("E")==0){
+                        System.out.println(i);
+                        monopoly.addCarteChance(new CarteEntretien(typeCarte, description, Integer.valueOf(data.get(i)[3]), Integer.valueOf(data.get(i)[4])));
+                    }else if (classe.compareTo("A")==0){
+                        System.out.println(i);
+                        monopoly.addCarteChance(new CarteAnniversaire(typeCarte, description));
+                    }
                 }  else {
                     System.err.println("[buildGamePleateau()] : Invalid Data type");
                 }
+                
             }
+            System.out.println("chances : " + monopoly.getChances());
+            System.out.println("communautes : " + monopoly.getCommunautes());
+           
+            
 
         } catch (FileNotFoundException e) {
             System.err.println("[buildGamePlateau()] : File is not found!");

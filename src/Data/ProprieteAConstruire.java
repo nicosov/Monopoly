@@ -7,10 +7,40 @@ public class ProprieteAConstruire extends Propriete {
 
     private Joueur proprietaire;
     private Groupe groupe;
+    private int nbMaison;
+    private int nbHotel;
+    private int prixMaison;
 
-    public ProprieteAConstruire(int numero, String nomCarreau, int loyer, int prixPropriete, Groupe groupe) {
+    public int getNbMaison() {
+        return nbMaison;
+    }
+
+    public int getPrixMaison() {
+        return prixMaison;
+    }
+
+    public void setPrixMaison(int prixMaison) {
+        this.prixMaison = prixMaison;
+    }
+
+    public void setNbMaison(int nbMaison) {
+        this.nbMaison = nbMaison;
+    }
+
+    public int getNbHotel() {
+        return nbHotel;
+    }
+
+    public void setNbHotel(int nbHotel) {
+        this.nbHotel = nbHotel;
+    }
+
+    public ProprieteAConstruire(int numero, String nomCarreau, int loyer, int prixPropriete, Groupe groupe, int prixMaison) {
         super(numero, nomCarreau, loyer, prixPropriete);
         this.groupe = groupe;
+        this.prixMaison=prixMaison;
+        nbMaison=0;
+        nbHotel=0;
     }
 
     public Joueur getProprietaire() {
@@ -58,6 +88,16 @@ public class ProprieteAConstruire extends Propriete {
         return res;
     }
 
+    @Override
+    public Message action(Joueur aJ) {
+        Message msg = new Message();
+        msg.type=Message.Types.PROPRIETE_A_CONSTRUIRE;
+        msg.joueur=aJ;
+        msg.prixPropriete=this.prixPropriete;
+        msg.proprietaire=this.proprietaire;
+        return msg;
+    }
+    
     public void acheterPropriete(Joueur aJ) {
         int monnaiej = aJ.getCash();
         int prixPropriete = this.prixPropriete;

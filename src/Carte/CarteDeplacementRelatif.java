@@ -15,30 +15,22 @@ import Jeu.Observateur;
  *
  * @author girina
  */
-public class CarteDeplacementAbsolut extends Carte{
-    private String paye;
-    private int numCarreau;
+public class CarteDeplacementRelatif extends Carte{
     private Observateur observateur;
-    public CarteDeplacementAbsolut(TypeCarte typeCarte, String description, int numCarreau, String paye) {
+    public CarteDeplacementRelatif(TypeCarte typeCarte, String description) {
         super(typeCarte, description);
-        this.numCarreau=numCarreau;
-        this.paye=paye;
     }
 
     @Override
     public Message actionCarte(Joueur aJ) {
+        
         Message msg = new Message();
-        msg.typeCarte=Message.TypeCarte.DeplacementAbsolut;
+        msg.typeCarte=Message.TypeCarte.DeplacementRelatif;
         msg.joueur=aJ;
-        if(paye.compareTo("oui")==0){
-            if(aJ.getPositionCourante().getNumero()>numCarreau){
-                aJ.recevoirLoyer(200);
-            }
-        }
-       return msg;
+        return msg;
     }
     
-    public String getDesciption() {
+    public String geDesciption() {
         return super.getDescription();
     }
 }

@@ -12,6 +12,16 @@ public class Groupe {
 
     }
 
+    public CouleurPropriete getCouleur() {
+        return couleur;
+    }
+
+    public void setCouleur(CouleurPropriete couleur) {
+        this.couleur = couleur;
+    }
+
+    
+    
     public ArrayList<ProprieteAConstruire> getPropriete() {
 
         return proprietes;

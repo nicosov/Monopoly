@@ -14,15 +14,22 @@ public class Gare extends Propriete {
 
     }
 
-    @Override
-    public void action(Joueur aJ) {
+    
+        @Override
+    public Message action(Joueur aJ) {
+        Message msg = new Message();
+        msg.type=Message.Types.PROPRIETE_A_CONSTRUIRE;
+        msg.joueur=aJ;
+        msg.prixPropriete=this.prixPropriete;
+        msg.proprietaire=this.proprietaire;
+        return msg;
     
     }
 
     @Override
     public int calculLoyer() {
         int i = 25;
-        int nbg = proprietaire.getGares();
+        int nbg = proprietaire.getNbGares();
         return i * nbg;
 
     }
@@ -31,7 +38,7 @@ public class Gare extends Propriete {
         this.proprietaire = aJ;
     }
 
-    private Joueur getProprietaire() {
+    public Joueur getProprietaire() {
         return this.proprietaire;
     }
 

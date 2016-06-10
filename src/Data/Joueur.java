@@ -6,8 +6,9 @@ import java.util.ArrayList;
 
 public class Joueur {
 
-    
-    
+    private int nbCarteLiberePrison;
+    private boolean enPrison;
+    private int nbTourPrison;
     private String nomJoueur;
     private int cash = 1500;
     public ArrayList<ProprieteAConstruire> proprieteAConstruires = new ArrayList<ProprieteAConstruire>();
@@ -23,6 +24,24 @@ public class Joueur {
             return true;
         } else return false;
     }
+
+    
+    
+    public ArrayList<ProprieteAConstruire> getProprieteAConstruires() {
+        return proprieteAConstruires;
+    }
+
+    public void setProprieteAConstruires(ArrayList<ProprieteAConstruire> proprieteAConstruires) {
+        this.proprieteAConstruires = proprieteAConstruires;
+    }
+
+    public int getNbCarteLiberePrison() {
+        return nbCarteLiberePrison;
+    }
+
+    public void setNbCarteLiberePrison(int nbCarteLiberePrison) {
+        this.nbCarteLiberePrison = nbCarteLiberePrison;
+    }
     public int getTotalDes() {
         return TotalDes;
     }
@@ -34,6 +53,7 @@ public class Joueur {
     public Joueur(String nomJoueur, Carreau c) {
         this.nomJoueur = nomJoueur;
         setPositionCourante(c);
+        this.cash=1500;
     }
 
     public void payerLoyer(int aL) {
@@ -68,11 +88,13 @@ public class Joueur {
         return this.cash;
     }
 
-    public int getGares() {
-        return gares.size();
+    public ArrayList<Gare> getGares() {
+        return gares;
     }
 
-
+    public int getNbGares() {
+        return gares.size();
+    }
     public void addGare(Gare gare) {
         gares.add(gare);
     }
@@ -93,5 +115,21 @@ public class Joueur {
         return proprieteAConstruires.size();
     }
     
-  
+    public ArrayList<Compagnie> getCompagnie(){
+        return compagnies;
+    }
+    
+    public int getNbCompagnie(){
+        return compagnies.size();
+    }
+
+    public void enPrison(){
+        if (enPrison){
+            enPrison=false;
+            
+        }else{
+            enPrison=true;
+            nbTourPrison=0;
+        }
+    }
 }

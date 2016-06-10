@@ -5,6 +5,8 @@
  */
 package Data;
 
+import Jeu.Message;
+import Jeu.Observateur;
 import java.util.ArrayList;
 
 /**
@@ -12,19 +14,20 @@ import java.util.ArrayList;
  * @author girina
  */
 public class CarreauCommunaute extends CarreauCarte {
+    private Observateur observateur;
 
     public CarreauCommunaute(int numero, String nomCarreau) {
         super(numero, nomCarreau);
     }
 
-    @Override
-    public Carte tirerCarte() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+   
 
     @Override
-    public void action(Joueur aJ) {
-        tirerCarte();
+    public Message action(Joueur aJ) {
+        Message msg = new Message();
+        msg.type=Message.Types.COMMUNAUTE;
+        msg.joueur=aJ;
+        return msg;
     }
 
     @Override
@@ -36,4 +39,11 @@ public class CarreauCommunaute extends CarreauCarte {
     public void acheterPropriete(Joueur aJ) {
     }
 
+    @Override
+    public int calculLoyer() {
+        return 0;
+    }
+
+    
+    
 }

@@ -14,23 +14,17 @@ import Jeu.Message;
  *
  * @author girina
  */
-public class CarteTransaction extends Carte{
-    
-    private int montant;
-    
-    public CarteTransaction(TypeCarte typeCarte, String description, int montant) {
+public class CarteLiberePrison extends Carte{
+
+    public CarteLiberePrison(TypeCarte typeCarte, String description) {
         super(typeCarte, description);
-        this.montant=montant;
     }
 
-    
-    
-    
     @Override
     public Message actionCarte(Joueur aJ) {
-        aJ.recevoirLoyer(montant);
+        aJ.setNbCarteLiberePrison(aJ.getNbCarteLiberePrison()+1);
         Message msg = new Message();
-        msg.typeCarte=Message.TypeCarte.Transaction;
+        msg.typeCarte=Message.TypeCarte.LiberePrison;
         msg.joueur=aJ;
         return msg;
     }

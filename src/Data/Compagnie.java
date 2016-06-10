@@ -61,6 +61,21 @@ public class Compagnie extends Propriete {
     msg.type = Message.Types.COMPAGNIE; //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param aJ
+     * @return
+     */
+    @Override
+    public Message action(Joueur aJ) {
+        Message msg = new Message();
+        msg.type=Message.Types.COMPAGNIE;
+        msg.joueur=aJ;
+        msg.prixPropriete=this.prixPropriete;
+        msg.proprietaire=this.proprietaire;
+        return msg;
+    }
+
    
 
 }

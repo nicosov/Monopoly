@@ -9,28 +9,24 @@ import Data.Carte;
 import Data.Joueur;
 import Data.TypeCarte;
 import Jeu.Message;
+import Jeu.Observateur;
 
 /**
  *
  * @author girina
  */
-public class CarteTransaction extends Carte{
-    
-    private int montant;
-    
-    public CarteTransaction(TypeCarte typeCarte, String description, int montant) {
+public class CarteDeplacementPrison extends Carte{
+private Observateur observateur;
+    public CarteDeplacementPrison(TypeCarte typeCarte, String description) {
         super(typeCarte, description);
-        this.montant=montant;
     }
 
-    
-    
-    
     @Override
     public Message actionCarte(Joueur aJ) {
-        aJ.recevoirLoyer(montant);
+        aJ.DeplacementPositionNumeroCarreau(10);
+        aJ.enPrison();
         Message msg = new Message();
-        msg.typeCarte=Message.TypeCarte.Transaction;
+        msg.typeCarte=Message.TypeCarte.DeplacementPrison;
         msg.joueur=aJ;
         return msg;
     }

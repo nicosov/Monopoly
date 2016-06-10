@@ -5,6 +5,8 @@
  */
 package Data;
 
+import Jeu.Message;
+import Jeu.Observateur;
 import java.util.ArrayList;
 
 /**
@@ -12,13 +14,15 @@ import java.util.ArrayList;
  * @author girina
  */
 public abstract class CarreauCarte extends Carreau{
+    private Observateur observateur;
 
     public CarreauCarte(int numero, String nomCarreau) {
         super(numero, nomCarreau);
     }
-
+    @Override
+    public abstract Message action(Joueur aJ);   
     
-    public abstract Carte tirerCarte();
+    
     
     
 }

@@ -18,16 +18,28 @@ public class Message {
         GARE,
         PROPRIETE_A_CONSTRUIRE,
         COMPAGNIE,
+        CHANCE,
+        COMMUNAUTE,
         AUTRE_CARREAU
     };
 
+    public enum TypeCarte {
+        Anniversaire,
+        DeplacementAbsolut,
+        DeplacementPrison,
+        DeplacementRelatif,
+        Entretien,
+        LiberePrison,
+        Transaction
+    };
     public Types type;  // type de message
-
     public Joueur joueur;  
+    public TypeCarte typeCarte;
     public Joueur proprietaire;
     public int prixPropriete;
     public int loyerTerrainNu;
     public int loyer;
+    public int numC;
   //  public String gagnant; // Champ utilisé pour le message JEU_TERMINE
 
 }

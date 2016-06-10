@@ -26,11 +26,11 @@ public abstract class Propriete extends Carreau implements Observateur {
 
     public abstract int calculLoyer();
 
-    private int getPrixPropriete() {
+    public int getPrixPropriete() {
         return prixPropriete;
     }
 
-    private Joueur getProprietaire() {
+    public Joueur getProprietaire() {
         return proprietaire;
     }
 
@@ -38,8 +38,12 @@ public abstract class Propriete extends Carreau implements Observateur {
         this.proprietaire = j;
     }
 
+    /**
+     *
+     * @param aJ
+     */
     @Override
-    public void action(Joueur aJ) {
+    public Message action(Joueur aJ) {
         Message msg = new Message();
         
         
@@ -57,8 +61,8 @@ public abstract class Propriete extends Carreau implements Observateur {
             msg.loyer = getLoyer();
 
         }
-        
-         observateur.notifier(msg); // NULLPOINTER exception
+        return msg;
+         
     }
 
     public boolean etudeAchatPropriete(Joueur aJ) {

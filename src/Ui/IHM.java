@@ -52,7 +52,6 @@ public class IHM extends JFrame implements Observateur {
 
     @Override
     public void notifier(Message msg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

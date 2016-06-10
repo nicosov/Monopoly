@@ -5,6 +5,9 @@
  */
 package Data;
 
+import Jeu.Message;
+import Jeu.Observateur;
+
 /**
  *
  * @author girina
@@ -12,13 +15,14 @@ package Data;
 public abstract class Carte {
     private TypeCarte typeCarte;
     private String description;
+    private Observateur observateur;
 
     public Carte(TypeCarte typeCarte, String description) {
         this.typeCarte = typeCarte;
         this.description = description;
     }
     
-    public abstract void actionCarte(Joueur aJ);
+    public abstract Message actionCarte(Joueur aJ);
     
     public TypeCarte getTypeCarte() {
         return typeCarte;
@@ -35,6 +39,7 @@ public abstract class Carte {
     public void setDescription(String description) {
         this.description = description;
     }
+    
     
     
     
