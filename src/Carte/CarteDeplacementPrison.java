@@ -23,7 +23,6 @@ private Observateur observateur;
 
     @Override
     public Message actionCarte(Joueur aJ) {
-        aJ.DeplacementPositionNumeroCarreau(10);
         aJ.enPrison();
         Message msg = new Message();
         msg.typeCarte=Message.TypeCarte.DeplacementPrison;

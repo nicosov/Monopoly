@@ -21,7 +21,7 @@ public class IHM extends JFrame implements Observateur {
 
     private static JFrame window1;
     public static IhmMenu ihmMenu;
-    private IhmInscrireLesJoueurs Ftest;
+    //private IhmInscrireLesJoueurs Ftest;
     private Controleur controleur;
 
     public IHM(Controleur c) {
@@ -40,12 +40,12 @@ public class IHM extends JFrame implements Observateur {
         window1.setMinimumSize(new Dimension(500, 375));
         window1.setMaximumSize(new Dimension(500, 375));
         // Instanciation de l'IHM d'un contact
-        ihmMenu = new IhmMenu();
+       // ihmMenu = new IhmMenu();
         // Affectation des attributs du contact aux champs de l'IHM
 
         // Ajout de l'IHM dans la fenêtre
         window1.getContentPane().setLayout(new BorderLayout());
-        window1.add(ihmMenu, BorderLayout.CENTER);
+        //window1.add(ihmMenu, BorderLayout.CENTER);
 
         // Ajout d'un bouton dans la fenêtre (pour tester la méthode getValues de IhmContact)
         window1.setVisible(true);

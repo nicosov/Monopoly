@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class Joueur {
 
-    private int nbCarteLiberePrison;
-    private boolean enPrison;
+    private int nbCarteLiberePrison = 0;
+    private boolean enPrison = false;
     private int nbTourPrison;
     private String nomJoueur;
     private int cash = 1500;
@@ -24,6 +24,20 @@ public class Joueur {
             return true;
         } else return false;
     }
+
+    public boolean isEnPrison() {
+        return enPrison;
+    }
+
+    public int getNbTourPrison() {
+        return nbTourPrison;
+    }
+
+    public void setNbTourPrison(int nbTourPrison) {
+        this.nbTourPrison = nbTourPrison;
+    }
+
+    
 
     
     
@@ -72,9 +86,7 @@ public class Joueur {
         positionCourante = aC;
     }
     
-    public void DeplacementPositionNumeroCarreau(int numC){
-  positionCourante.setNumeroCarreau(numC);
-    }
+    
 
     public String getNom() {
         return nomJoueur;
@@ -127,9 +139,10 @@ public class Joueur {
         if (enPrison){
             enPrison=false;
             
-        }else{
+        }else if(!enPrison){
             enPrison=true;
             nbTourPrison=0;
+            
         }
     }
 }

@@ -10,10 +10,25 @@ import Jeu.Observateur;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class IHM_console  implements Observateur{
+public class IHM_console implements Observateur {
 
     public static void afficherChezlui() {
         System.out.println("Vous etes sur votre propriete.");
+    }
+
+    public static int afficherEnPrison(int nbCarteLiberePrison, int nbTourPrison) {
+        int choix = 0;
+        System.out.println("Vous etes en prison. C'est votre n°" + nbTourPrison);
+        if (nbCarteLiberePrison > 0) {
+            System.out.println("Vous possedez " + nbCarteLiberePrison + " carte libere de prison. Vouez-vous l'utiliser ?");
+            System.out.println("1 - Oui");
+            System.out.println("2 - Non");
+            Scanner sc = new Scanner(System.in);
+            choix = sc.nextInt();
+        } else {
+            System.out.println("Vous ne possedez pas de carte libere de prison.");
+        }
+        return choix;
     }
 
     private Controleur controleur;
@@ -107,6 +122,7 @@ public class IHM_console  implements Observateur{
                         System.out.println(" - Gares possédées : " + j.getNbGares());
                         System.out.println(" - Compagnie possédées : " + j.getNbComp());
                         System.out.println(" - Propriété possédées : " + j.getNbPropriete());
+                        System.out.println(" - Nombre de carte libere de Prison : " + j.getNbCarteLiberePrison());
                     }
                     afficherMenuJeu_p();
                     break;
@@ -115,28 +131,28 @@ public class IHM_console  implements Observateur{
                     controleur.jCourant();
                     afficherMenuJeu_p();
                     break;
-                
+
                 case 4:
                     System.out.println(" Proprietes constructibles :");
                     ArrayList<ProprieteAConstruire> propConstructibles = controleur.proprietesConstructibles();
-                    if(propConstructibles.size()>0){
+                    if (propConstructibles.size() > 0) {
                         int i = 0;
-                        for(ProprieteAConstruire p : propConstructibles){
+                        for (ProprieteAConstruire p : propConstructibles) {
                             System.out.println(i + " " + p.getNomCarreau() + " du groupe " + p.getGroupe().getCouleur());
                             i++;
                         }
-                            System.out.println("Choisissez le numero de la propriete a construire : ");
-                            Scanner sc2 = new Scanner(System.in);
-                            int numC = 0;    
-                            numC = sc2.nextInt();
-                            controleur.monopolyConstruire(propConstructibles.get(numC));
-                            System.out.println("Construction effectuée !");
-                    }else{
+                        System.out.println("Choisissez le numero de la propriete a construire : ");
+                        Scanner sc2 = new Scanner(System.in);
+                        int numC = 0;
+                        numC = sc2.nextInt();
+                        controleur.monopolyConstruire(propConstructibles.get(numC));
+                        System.out.println("Construction effectuée !");
+                    } else {
                         System.out.println("Aucune propriete constructible.");
                     }
                     afficherMenuJeu_p();
                     break;
-                    
+
                 case 5:
 
                     System.out.println("\u001B[34m ----- FIN DE PARTIE ----- \u001B[0m");
@@ -158,7 +174,7 @@ public class IHM_console  implements Observateur{
 
     public int afficherMenuAchat(int prix) {
         System.out.println("\u001B[34m -------------- MENU ACHAT PROPRIETE --------------");
-        System.out.println(" Voulez-vous acheter la propriete au prix de " + prix +  "?");
+        System.out.println(" Voulez-vous acheter la propriete au prix de " + prix + "?");
         System.out.println("1 - Oui");
         System.out.println("2 - Non");
         System.out.println(" \u001B[34m --------------------------------------------------");
@@ -177,58 +193,71 @@ public class IHM_console  implements Observateur{
 
     public void afficherInfoJoueurCourant(Joueur j) {
 
-        System.out.println("Votre argent : " +j.getCash());
+        System.out.println("Votre argent : " + j.getCash());
     }
-    public void afficherDouble(Joueur j){
-         System.out.println("le Joueur " + j.getNom() + " viens de faire un double, il rejouera...");
+
+    public void afficherDouble(Joueur j) {
+        System.out.println("le Joueur " + j.getNom() + " viens de faire un double, il rejouera...");
     }
-    
-        public void notifier(Message msg) 
-        {
-            switch(msg.type) 
-            {
-                case GARE:
 
-                    System.out.println("GARE");
-                    break;
+    public void notifier(Message msg) {
+        switch (msg.type) {
+            case GARE:
 
-                case COMPAGNIE:
+                System.out.println("GARE");
+                break;
 
-                    System.out.println("COMPAGNIE");
-                    break;
-                case PROPRIETE_A_CONSTRUIRE:
-                    System.out.println("PROPRIETE_A_CONSTRUIRE");
-                    break;
-                case AUTRE_CARREAU:
+            case COMPAGNIE:
 
-                    System.out.println("AUTRE CARREAU");
-                    break;
+                System.out.println("COMPAGNIE");
+                break;
+            case PROPRIETE_A_CONSTRUIRE:
+                System.out.println("PROPRIETE_A_CONSTRUIRE");
+                break;
+            case AUTRE_CARREAU:
 
-                case CHANCE:
+                System.out.println("AUTRE CARREAU");
+                break;
 
-                    System.out.println("CHANCE");
-                    break;
-                case COMMUNAUTE:
-                    System.out.println("COMMUNAUTE");
-                    break;    
+            case CHANCE:
+
+                System.out.println("CHANCE");
+                break;
+            case COMMUNAUTE:
+                System.out.println("COMMUNAUTE");
+                break;
         }
-            
+
     }
 
     public void afficherPayerCompagnie(Joueur proprietaire, int montant) {
-        System.out.println("Vous etes sur la compagnie de " + proprietaire.getNom() + ". Vous payez " + montant + "." );
-        }
+        System.out.println("Vous etes sur la compagnie de " + proprietaire.getNom() + ". Vous payez " + montant + ".");
+    }
 
     public void afficherPayerGare(Joueur proprietaire, int montant) {
-        System.out.println("Vous etes sur la gare de " + proprietaire.getNom() + ". Vous payez " + montant + "." );
+        System.out.println("Vous etes sur la gare de " + proprietaire.getNom() + ". Vous payez " + montant + ".");
     }
 
     public void afficherPayerProprieteAConstruire(Joueur proprietaire, int montant) {
-        System.out.println("Vous etes sur la propriete de " + proprietaire.getNom() + ". Vous payez " + montant + "." );
+        System.out.println("Vous etes sur la propriete de " + proprietaire.getNom() + ". Vous payez " + montant + ".");
     }
 
     public void afficherTaxes(Joueur aJ, int taxe) {
-                System.out.println("Vous payez " + taxe + "." );
+        System.out.println("Vous payez " + taxe + ".");
     }
-    
+
+    public void afficherSortiPrisonDouble(int des1, int des2) {
+        System.out.println("Vous lancez les des : " + des1 + des2 );
+        System.out.println("Vous realisez des doubles ! Vous sortez de prison !");
+    }
+
+    public void afficherPayerSortie(int des1, int des2) {
+        System.out.println("Vous lancez les des : " + des1 + des2 );
+        System.out.println("Vous ne faites pas de double. C'est votre 3eme tour vous devez payer une caution de 50.");
+    }
+
+    public void afficherDoubleRate(int des1, int des2) {
+        System.out.println("Vous lancez les des : " + des1 + des2 + "Vous ne faites pas de doubles.");
+    }
+
 }

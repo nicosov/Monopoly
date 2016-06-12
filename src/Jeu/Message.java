@@ -21,7 +21,8 @@ public class Message {
         CHANCE,
         COMMUNAUTE,
         AUTRE_CARREAU,
-        IMPOTS
+        IMPOTS,
+        ALLER_PRISON
     };
 
     public enum TypeCarte {

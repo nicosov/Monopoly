@@ -80,11 +80,39 @@ public class Controleur {
 
                         for (Joueur aJ : monopoly.getJoueursEnVie()) {
                             jCourant = aJ;
-                            this.jouerUnCoup(aJ);
+                            if(aJ.isEnPrison()){
+                                int sorti=IHM_console.afficherEnPrison(aJ.getNbCarteLiberePrison(), aJ.getNbTourPrison());
+                                if(sorti==1){
+                                    aJ.setNbCarteLiberePrison(aJ.getNbCarteLiberePrison()-1);
+                                    aJ.enPrison();
+                                    jouerUnCoup(aJ);
+                                }else if (sorti==2){
+                                    des1=1;//lancerDes();
+                                    des2=1;//lancerDes();
+                                    if(des1 == des2){
+                                        aJ.enPrison();
+                                        aJ.setPositionCourante(monopoly.getCarreau(11+des1+des2));
+                                        ihm_console.afficherSortiPrisonDouble(des1, des2);
+                                        jouerUnCoup(aJ);
+                                    }else{
+                                        if (aJ.getNbTourPrison()==3){
+                                            ihm_console.afficherPayerSortie(des1, des2);
+                                            aJ.payerLoyer(50);
+                                            aJ.setPositionCourante(monopoly.getCarreau(11+des1+des2));
+                                            jouerUnCoup(aJ);
+                                        }else{
+                                            ihm_console.afficherDoubleRate(des1,des2);
+                                            aJ.setNbTourPrison(aJ.getNbTourPrison()+1);
+                                        }
+                                    }
+                                }
+                            }else if (!aJ.isEnPrison()){
+                                this.jouerUnCoup(aJ);
 
-                            if (aJ.enVie() == false) {
-                                monopoly.addJoueurMort(aJ);
-                                ihm_console.afficherMort();
+                                if (aJ.enVie() == false) {
+                                    monopoly.addJoueurMort(aJ);
+                                    ihm_console.afficherMort();
+                                }
                             }
                         }
                         monopoly.removeJoueursEnVie();
@@ -192,6 +220,7 @@ public class Controleur {
                     break;
                 case COMMUNAUTE:
                 carte=monopoly.tirerCommunaute();
+                System.out.println(carte.getDescription());
                 msgCarte=carte.actionCarte(aJ);
                     switch(msgCarte.typeCarte){
                         case Anniversaire:
@@ -269,6 +298,10 @@ public class Controleur {
                     ihm_console.afficherTaxes(aJ,msgCarreau.taxe);
                     rejouer = false;
                     break;
+                case ALLER_PRISON:
+                    aJ.setPositionCourante(monopoly.getCarreau(10));
+                    rejouer = false;
+                    break;
             }
         observateur.notifier(msgCarreau);
         
@@ -292,8 +325,8 @@ public class Controleur {
     
     private Carreau lancerDesAvancer(Joueur aJ) {
 
-        des1 = 1;//lancerDes();// PHASE TEST: lancerDes() : normal - 0 : 1par1 - 3: gare - 3: compagnie - 2: double
-        des2 = 3;//lancerDes();// PHASE TEST: lancerDes() : normal - 1 : 1par1 - 2: gare - 1: compagnie - 2: double
+        des1 = 15;//lancerDes();// PHASE TEST: lancerDes() : normal - 0 : 1par1 - 3: gare - 3: compagnie - 2: double
+        des2 = 15;//lancerDes();// PHASE TEST: lancerDes() : normal - 1 : 1par1 - 2: gare - 1: compagnie - 2: double
         monopoly.avancer(aJ, des1, des2);
 
         if (des1 == des2) {
@@ -368,6 +401,9 @@ public class Controleur {
                 }else if (caseType.compareTo("I") == 0) {
                     //   System.out.println("Case Autre :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     monopoly.addCarreau_p(new Impots(i + 1, data.get(i)[2], Integer.valueOf(data.get(i)[3])));
+                }else if (caseType.compareTo("AP") == 0) {
+                    //   System.out.println("Case Autre :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+                    monopoly.addCarreau_p(new AllerPrison(i + 1, data.get(i)[2]));
                 }else {
                     System.err.println("[buildGamePleateau()] : Invalid Data type");
                 }

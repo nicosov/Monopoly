@@ -14,7 +14,6 @@ Communaute,DA,Avancez jusqu'à la case Départ.,0,oui
 Communaute,T,Recevez votre intérêt sur l'emprunt à 7% : 25€,25
 Communaute,T,Recevez votre revenu annuel : 100€,100
 Communaute,T,Vous avez gagné le deuxième prix de beauté : recevez 10€,10
-Chance,L,Vous êtes libéré de prison. Cette carte peut être conservée jusqu'à ce qu'elle soit utilisée., 
 Chance,E,Vous êtes imposés pour les réparations de voirie à raison de : 40 € par maison et 115€ par hôtel.,40,115
 Chance,T,Amende pour excèsde vitesse : 15€,-15
 Chance,E,Faites des réparations dans toutes vos maisons : versez pour chaque maison 25€ et pour chaque hôtel 100€,25,100
@@ -30,3 +29,4 @@ Chance,DA,Rendez-vous à la Rue de la Paix.,39,non
 Chance,T,Votre immeuble et votre prêt rapportent. Vous devez toucher 150€,150
 Chance,DA,Accédez au Boulevard de la Villette. Si vous passez par la case Départ recevez 200€,11,oui
 Chance,DR,Reculez de trois cases.
+Chance,L,Vous êtes libéré de prison. Cette carte peut être conservée jusqu'à ce qu'elle soit utilisée., 

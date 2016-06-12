@@ -28,7 +28,7 @@ P,27,Faub. Saint-Honoré,jaune,260,22,110,330,800,975,1150,150,150
 P,28,Place de la Bourse,jaune,260,22,110,330,800,975,1150,150,150
 C,29,Compagnie de distribution des eaux,150
 P,30,Rue La Fayette,jaune,280,24,120,360,850,1025,1200,150,150
-AU,31,Allez en prison
+AP,31,Allez en prison
 P,32,Av. de Breteuil,vert,300,26,130,390,900,1100,1275,200,200
 P,33,Av. Foch,vert,300,26,130,390,900,1100,1275,200,200
 COM,34,Caisse de Communauté

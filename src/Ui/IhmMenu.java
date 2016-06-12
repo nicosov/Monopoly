@@ -16,6 +16,9 @@ import javax.swing.JPanel;
  */
 public class IhmMenu extends javax.swing.JFrame {
 
+    public IhmMenu() {
+    }
+
     /**
      * Creates new form IhmMenu
      */

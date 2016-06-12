@@ -1,6 +1,7 @@
 package Data;
 
 import Jeu.Message;
+import Jeu.Monopoly;
 import java.util.HashSet;
 
 public abstract class Carreau {
@@ -44,7 +45,4 @@ public abstract class Carreau {
 
     public abstract void acheterPropriete(Joueur aJ);
     
-    public void setNumeroCarreau(int numC){
-        this.numero=numC;
-    }
 }
